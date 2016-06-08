@@ -1,0 +1,17 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#map {
+  height: 100%;
+  width: 75%;
+  float: left;
+}
+
+#sidebar {
+  height: 100%;
+  width: 25%;
+  overflow: auto;
+  float: left;
+}

@@ -13,9 +13,11 @@
     <div id="sidebar">
         <div ng-click="result.openInfoWindow()" ng-repeat="result in data.list">
           <h3>{{result.name}}</h3>
-          <img src="http://openweathermap.org/img/w/{{result.weather[0].icon}}.png"/>
+          <img ng-show="result.main.temp > 80" src="hot.png"/>
+          <img ng-show="(result.main.temp >= 65 && result.main.temp <= 80)" src="normal.png"/>
+          <img ng-show="result.main.temp < 65" src="cold.png"/>
         Current Temp:
-        {{result.main.temp}}
+        {{result.main.temp}}°
         </div>
     </div>
     <script>
@@ -31,6 +33,6 @@
       map = new google.maps.Map(document.getElementById('map'), mapOptions);
     }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOURAPIKEY=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMlRoQf5-BSL2GOwYb4ThM7LPsKVQRtgw&callback=initMap"></script>
   </body>
 </html>

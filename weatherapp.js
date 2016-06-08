@@ -24,7 +24,7 @@ var infoWindows = [];
 var app = angular.module('weatherApp', []);
 
 app.controller('MainController', function($scope, $http){
-  $http.get("http://api.openweathermap.org/data/2.5/group?id="+MultiCity+"&units=imperial&APPID=eac2948bfca65b78a8c5564ecf91d00e")
+  $http.get("http://api.openweathermap.org/data/2.5/group?id="+ MultiCity +"&units=imperial&APPID=eac2948bfca65b78a8c5564ecf91d00e")
   .success(function(data) {
     $scope.data = data;
     console.log(data);
@@ -34,19 +34,18 @@ app.controller('MainController', function($scope, $http){
       addMarker(result);
     });
 
-
-
     function addMarker(result) {
       var image = {
-      url: "http://openweathermap.org/img/w/" + result.weather[0].icon + ".png",
-      size: new google.maps.Size(50, 50),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(25, 25)
-    };
+        url: "http://openweathermap.org/img/w/" + result.weather[0].icon + ".png",
+        size: new google.maps.Size(50, 50),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(25, 25)
+      };
       var marker = new google.maps.Marker({
         position: { lat: result.coord.lat, lng: result.coord.lon },
         map: map,
-        icon: image
+        icon: image,
+        anchorPoint: new google.maps.Point(0,-8)
       });
       var contentString = "City: " + result.name + "<br>Current Temp: " + result.main.temp + "<br>High Of: " + result.main.temp_max + "<br>Low Of: " + result.main.temp_min + "<br>Pressure: " + result.main.pressure + "<br>Humidity: " + result.main.humidity + "<br>Wind Speed: " + result.wind.speed;
       var infoWindow = new google.maps.InfoWindow({
@@ -55,6 +54,7 @@ app.controller('MainController', function($scope, $http){
       //push infoWindow in to array
       infoWindows.push(infoWindow);
       function hideAllInfoWindows() {
+        //goes through each infoWindow in the infoWindows array
         infoWindows.forEach(function(infoWindow) {
           infoWindow.close();
         });
@@ -63,10 +63,12 @@ app.controller('MainController', function($scope, $http){
         hideAllInfoWindows();
         infoWindow.open(map, marker);
       });
-      result.openInfoWindow=function(){
+      result.openInfoWindow = function(){
         hideAllInfoWindows();
         infoWindow.open(map, marker);
       };
+      
+
     }
   });
 

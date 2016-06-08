@@ -15,3 +15,10 @@ html, body {
   overflow: auto;
   float: left;
 }
+#sidebar div {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+#sidebar div img {
+  vertical-align: middle;
+}

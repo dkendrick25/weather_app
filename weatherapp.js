@@ -19,18 +19,34 @@ var cityIds = [
   5419384,
   4990729
 ];
-var MultiCity = cityIds.join(',');
+var cityIdList = cityIds.join(',');
 var infoWindows = [];
 var app = angular.module('weatherApp', []);
 
-app.controller('MainController', function($scope, $http){
-  $http.get("http://api.openweathermap.org/data/2.5/group?id="+ MultiCity +"&units=imperial&APPID=eac2948bfca65b78a8c5564ecf91d00e")
-  .success(function(data) {
+app.factory('weather', function($http) {
+  var APPID = 'eac2948bfca65b78a8c5564ecf91d00e';
+  return {
+    getByIds: function(cityIdList, callback) {
+      $http({
+        url: 'http://api.openweathermap.org/data/2.5/group',
+        params: {
+          APPID: APPID,
+          id: cityIdList,
+          units: 'imperial'
+        }
+      }).success(callback);
+    }
+  };
+});
+
+app.controller('MainController', function($scope, weather){
+  // $http.get("http://api.openweathermap.org/data/2.5/group?id="+ cityIdList +"&units=imperial&APPID=eac2948bfca65b78a8c5564ecf91d00e")
+  // .success(function(data) {
+    weather.getByIds(cityIdList, function(data) {
     $scope.data = data;
     console.log(data);
     var list = data.list;
     var results = list.map(function(result) {
-
       addMarker(result);
     });
 
@@ -67,7 +83,7 @@ app.controller('MainController', function($scope, $http){
         hideAllInfoWindows();
         infoWindow.open(map, marker);
       };
-      
+
 
     }
   });

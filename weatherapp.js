@@ -23,6 +23,52 @@ var cityIdList = cityIds.join(',');
 var infoWindows = [];
 var app = angular.module('weatherApp', []);
 
+app.factory('googleMap', function() {
+  var kansas = {lat: 39.099727, lng: -94.578567};
+  var mapOptions = {
+    center: kansas,
+    zoom: 4
+  };
+  //makes map
+  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    return {
+      addMarker: function(result) {
+        var image = {
+          url: "http://openweathermap.org/img/w/" + result.weather[0].icon + ".png",
+          size: new google.maps.Size(50, 50),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(25, 25)
+        };
+        var marker = new google.maps.Marker({
+          position: { lat: result.coord.lat, lng: result.coord.lon },
+          map: map,
+          icon: image,
+          anchorPoint: new google.maps.Point(0,-8)
+        });
+        var contentString = "City: " + result.name + "<br>Current Temp: " + result.main.temp + "<br>High Of: " + result.main.temp_max + "<br>Low Of: " + result.main.temp_min + "<br>Pressure: " + result.main.pressure + "<br>Humidity: " + result.main.humidity + "<br>Wind Speed: " + result.wind.speed;
+        var infoWindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        //push infoWindow in to array
+        infoWindows.push(infoWindow);
+        function hideAllInfoWindows() {
+          //goes through each infoWindow in the infoWindows array
+          infoWindows.forEach(function(infoWindow) {
+            infoWindow.close();
+          });
+        }
+        marker.addListener('click', function() {
+          hideAllInfoWindows();
+          infoWindow.open(map, marker);
+        });
+        result.openInfoWindow = function(){
+          hideAllInfoWindows();
+          infoWindow.open(map, marker);
+        };
+      }
+    };
+});
+
 //custom service for weather request
 app.factory('weather', function($http) {
   var APPID = 'eac2948bfca65b78a8c5564ecf91d00e';
@@ -40,53 +86,12 @@ app.factory('weather', function($http) {
   };
 });
 
-app.controller('MainController', function($scope, weather){
-  // $http.get("http://api.openweathermap.org/data/2.5/group?id="+ cityIdList +"&units=imperial&APPID=eac2948bfca65b78a8c5564ecf91d00e")
-  // .success(function(data) {
+app.controller('MainController', function($scope, weather, googleMap){
   weather.getByIds(cityIdList, function(data) {
     $scope.data = data;
     console.log(data);
-    var list = data.list;
-    var results = list.map(function(result) {
-      addMarker(result);
+    var results = data.list.map(function(result) {
+      googleMap.addMarker(result);
     });
-
-    function addMarker(result) {
-      var image = {
-        url: "http://openweathermap.org/img/w/" + result.weather[0].icon + ".png",
-        size: new google.maps.Size(50, 50),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(25, 25)
-      };
-      var marker = new google.maps.Marker({
-        position: { lat: result.coord.lat, lng: result.coord.lon },
-        map: map,
-        icon: image,
-        anchorPoint: new google.maps.Point(0,-8)
-      });
-      var contentString = "City: " + result.name + "<br>Current Temp: " + result.main.temp + "<br>High Of: " + result.main.temp_max + "<br>Low Of: " + result.main.temp_min + "<br>Pressure: " + result.main.pressure + "<br>Humidity: " + result.main.humidity + "<br>Wind Speed: " + result.wind.speed;
-      var infoWindow = new google.maps.InfoWindow({
-        content: contentString
-      });
-      //push infoWindow in to array
-      infoWindows.push(infoWindow);
-      function hideAllInfoWindows() {
-        //goes through each infoWindow in the infoWindows array
-        infoWindows.forEach(function(infoWindow) {
-          infoWindow.close();
-        });
-      }
-      marker.addListener('click', function() {
-        hideAllInfoWindows();
-        infoWindow.open(map, marker);
-      });
-      result.openInfoWindow = function(){
-        hideAllInfoWindows();
-        infoWindow.open(map, marker);
-      };
-
-
-    }
   });
-
 });

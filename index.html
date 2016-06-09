@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Weather App</title>
     <script src="angular.js" charset="utf-8"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMlRoQf5-BSL2GOwYb4ThM7LPsKVQRtgw"></script>
     <script src="weatherapp.js" charset="utf-8"></script>
     <link rel="stylesheet" href="style.css">
   </head>
@@ -20,19 +20,5 @@
         {{result.main.temp}}°
         </div>
     </div>
-    <script>
-    var map;
-    function initMap() {
-      //center latlng
-      var kansas = {lat: 39.099727, lng: -94.578567};
-      var mapOptions = {
-        center: kansas,
-        zoom: 4
-      };
-      //makes map
-      map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMlRoQf5-BSL2GOwYb4ThM7LPsKVQRtgw&callback=initMap"></script>
   </body>
 </html>

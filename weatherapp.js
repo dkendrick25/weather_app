@@ -23,6 +23,7 @@ var cityIdList = cityIds.join(',');
 var infoWindows = [];
 var app = angular.module('weatherApp', []);
 
+//custom service for weather request
 app.factory('weather', function($http) {
   var APPID = 'eac2948bfca65b78a8c5564ecf91d00e';
   return {
@@ -42,7 +43,7 @@ app.factory('weather', function($http) {
 app.controller('MainController', function($scope, weather){
   // $http.get("http://api.openweathermap.org/data/2.5/group?id="+ cityIdList +"&units=imperial&APPID=eac2948bfca65b78a8c5564ecf91d00e")
   // .success(function(data) {
-    weather.getByIds(cityIdList, function(data) {
+  weather.getByIds(cityIdList, function(data) {
     $scope.data = data;
     console.log(data);
     var list = data.list;

@@ -14,8 +14,8 @@
         <div ng-click="result.openInfoWindow()" ng-repeat="result in data.list">
           <h3>{{result.name}}</h3>
           <img ng-show="result.main.temp > 80" src="hot.png"/>
-          <img ng-show="(result.main.temp >= 65 && result.main.temp <= 80)" src="normal.png"/>
-          <img ng-show="result.main.temp < 65" src="cold.png"/>
+          <img ng-show="(result.main.temp >= 60 && result.main.temp <= 80)" src="normal.png"/>
+          <img ng-show="result.main.temp < 60" src="cold.png"/>
         Current Temp:
         {{result.main.temp}}°
         </div>

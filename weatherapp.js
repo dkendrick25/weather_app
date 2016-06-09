@@ -71,7 +71,7 @@ app.factory('googleMap', function() {
 
 //custom service for weather request
 app.factory('weather', function($http) {
-  var APPID = 'eac2948bfca65b78a8c5564ecf91d00e';
+  var APPID = '16b35f21e8495fad2af63abb2d969031';
   return {
     getByIds: function(cityIdList, callback) {
       $http({

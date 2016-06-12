@@ -1,0 +1,12 @@
+<div class="sidebar">
+  <a href="#/">back home</a>
+  <h1>{{data.city.name}}</h1>
+  <div ng-repeat="result in data.list">
+      <p>Date: {{result.dt * 1000 | date: "MM-dd hh:mm"}}</p>
+      <p>Temp: {{result.main.temp}}°</p>
+      <img ng-src="http://openweathermap.org/img/w/{{result.weather[0].icon}}.png"/>
+      <img ng-show="result.main.temp > 80" src="hot.png"/>
+      <img ng-show="(result.main.temp >= 60 && result.main.temp <= 80)" src="normal.png"/>
+      <img ng-show="result.main.temp < 60" src="cold.png"/>
+  </div>
+</div>

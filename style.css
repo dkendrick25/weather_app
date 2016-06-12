@@ -2,6 +2,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: "Heveltica", sans-serif;
 }
 #map {
   height: 100%;
@@ -9,17 +10,19 @@ html, body {
   float: left;
 }
 
-#sidebar {
+.sidebar {
   height: 100%;
   width: 25%;
   overflow: auto;
   float: left;
 }
-#sidebar div {
+.sidebar div {
   padding: 5px 10px;
   cursor: pointer;
   border-bottom: .5px solid gray;
+  text-align: center;
 }
-#sidebar div img {
+.sidebar div img {
   vertical-align: middle;
+  height: 40px;
 }

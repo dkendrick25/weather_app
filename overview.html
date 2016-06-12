@@ -1,0 +1,13 @@
+<div class="sidebar">
+  <h2>Weather App</h2>
+    <div ng-click="result.openInfoWindow()" ng-repeat="result in data.list">
+      <h4>{{result.name}}</h4>
+      <img ng-show="result.main.temp > 80" src="hot.png"/>
+      <img ng-show="(result.main.temp >= 60 && result.main.temp <= 80)" src="normal.png"/>
+      <img ng-show="result.main.temp < 60" src="cold.png"/>
+      Current Temp:
+      {{result.main.temp}}°F
+      <br>
+      <a href="#">see 5 day forcast</a>
+    </div>
+</div>

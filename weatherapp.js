@@ -21,18 +21,37 @@ var cityIds = [
 ];
 var cityIdList = cityIds.join(',');
 var infoWindows = [];
-var app = angular.module('weatherApp', []);
+var app = angular.module('weatherApp', ['ngRoute']);
+
+app.config(function($routeProvider) {
+  $routeProvider.when("/", {
+    controller: "MainController",
+    templateUrl: 'overview.html'
+  })
+  .when("/city/:cityId", {
+    controller: "forcastController",
+    templateUrl: "forcast.html"
+  });
+});
 
 app.factory('googleMap', function() {
-  var kansas = {lat: 39.099727, lng: -94.578567};
-  var mapOptions = {
-    center: kansas,
-    zoom: 4
-  };
-  //makes map
-  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  //initialize google maps
+  // var kansas = {lat: 39.099727, lng: -94.578567};
+  // var mapOptions = {
+  //   center: kansas,
+  //   zoom: 4
+  // };
+  // var map = new google.maps.Map(document.getElementById('map'), mapOptions);
     return {
-      addMarker: function(result) {
+      addNewMap: function(lat, lng, zoom) {
+        var mapOptions = {
+          center: {lat: lat, lng: lng},
+          zoom: zoom
+        };
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        return map;
+      },
+      addMarker: function(result, map) {
         var image = {
           url: "http://openweathermap.org/img/w/" + result.weather[0].icon + ".png",
           size: new google.maps.Size(50, 50),
@@ -45,7 +64,7 @@ app.factory('googleMap', function() {
           icon: image,
           anchorPoint: new google.maps.Point(0,-8)
         });
-        var contentString = "City: " + result.name + "<br>Current Temp: " + result.main.temp + "<br>High Of: " + result.main.temp_max + "<br>Low Of: " + result.main.temp_min + "<br>Pressure: " + result.main.pressure + "<br>Humidity: " + result.main.humidity + "<br>Wind Speed: " + result.wind.speed;
+        var contentString = "<h4>" + result.name + "</h4>" + "Current Temp: " + result.main.temp + "<br>High Of: " + result.main.temp_max + "°F<br>Low Of: " + result.main.temp_min + "°F<br>Pressure: " + result.main.pressure + "<br>Humidity: " + result.main.humidity + "%<br>Wind Speed: " + result.wind.speed;
         var infoWindow = new google.maps.InfoWindow({
           content: contentString
         });
@@ -82,16 +101,38 @@ app.factory('weather', function($http) {
           units: 'imperial'
         }
       }).success(callback);
+    },
+    getWeatherForcast: function(cityId, callback) {
+      var APPID = '16b35f21e8495fad2af63abb2d969031';
+        $http({
+          url: "http://api.openweathermap.org/data/2.5/forecast",
+          params: {
+            APPID: APPID,
+            id: cityId,
+            units: 'imperial'
+          }
+        }).success(callback);
     }
-  };
+   };
+});
+
+app.controller("forcastController", function($scope, $http, $routeParams, weather) {
+  var cityId = $routeParams.cityId;
+  weather.getWeatherForcast(cityId, function(data) {
+    $scope.data = data;
+    var results = data.list;
+    console.log(data);
+  });
+
 });
 
 app.controller('MainController', function($scope, weather, googleMap){
   weather.getByIds(cityIdList, function(data) {
     $scope.data = data;
     console.log(data);
+    var map = googleMap.addNewMap(39.099727,-94.578567, 4);
     var results = data.list.map(function(result) {
-      googleMap.addMarker(result);
+      googleMap.addMarker(result, map);
     });
   });
 });

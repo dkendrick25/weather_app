@@ -1,6 +1,19 @@
 ##Weather app
 
-##Description
-This app uses the google maps API and open weather API to plot the current weather on the map as well as give a 5 day forcast. This app was built using AngualrJS.
+###Overview of the Project
+Check out the current weather for a few major cities. Navigate to the side bar to see current stats or click on a certain city to see the 5 day forcast.
 
-(Check it out here)[http://kendrickweatherapp.surge.sh/#/]
+##Technologies Used
+* HTML5
+* CSS3
+* AngularJS
+* JavaScript
+* Google Maps API
+* Open Weather API
+
+###Contributions to Add
+1. Add a search functionality
+
+##URL to Live Project
+
+(Check it out here)[http://kendrickweatherapp.surge.sh/]

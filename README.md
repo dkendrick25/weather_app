@@ -1,7 +1,7 @@
 ##Weather app
 
 ###Overview of the Project
-Check out the current weather for a few major cities. Navigate to the side bar to see current stats or click on a certain city to see the 5 day forcast.
+Check out the current weather for a few major cities. Click on the marker for more detailed information. Navigate to the side bar to see current stats or click on a certain city to see the 5 day forcast.
 
 ##Technologies Used
 * HTML5

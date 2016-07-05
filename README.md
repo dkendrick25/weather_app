@@ -16,4 +16,4 @@ Check out the current weather for a few major cities. Click on the marker for mo
 
 ##URL to Live Project
 
-(Check it out here)[http://kendrickweatherapp.surge.sh/]
+[Check it out here](http://kendrickweatherapp.surge.sh/)
